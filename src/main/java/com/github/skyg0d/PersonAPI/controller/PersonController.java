@@ -1,16 +1,23 @@
 package com.github.skyg0d.PersonAPI.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.github.skyg0d.PersonAPI.entity.Person;
+import com.github.skyg0d.PersonAPI.service.PersonService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/person")
+@RequiredArgsConstructor
+@RequestMapping("/api/v1/people")
 public class PersonController {
 
-    @GetMapping
-    public String test() {
-        return "Person API";
+    private final PersonService personService;
+
+    @PostMapping
+    public ResponseEntity<Person> save(@RequestBody Person person) {
+        Person savedPerson = personService.save(person);
+        return new ResponseEntity<>(savedPerson, HttpStatus.CREATED);
     }
 
 }
