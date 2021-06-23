@@ -26,7 +26,7 @@ public class PersonController {
 
     @GetMapping("{id}")
     public ResponseEntity<PersonDTO> findById(@PathVariable Long id) {
-        PersonDTO personDTO = personService.findById(id);
+        PersonDTO personDTO = personService.findByIdOrElseThrowPersonNotFoundException(id);
         return ResponseEntity.ok(personDTO);
     }
 
@@ -34,6 +34,12 @@ public class PersonController {
     public ResponseEntity<Person> save(@RequestBody @Valid PersonDTO personDTO) {
         Person savedPerson = personService.save(personDTO);
         return new ResponseEntity<>(savedPerson, HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        personService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

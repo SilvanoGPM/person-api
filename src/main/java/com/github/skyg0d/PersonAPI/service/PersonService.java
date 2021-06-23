@@ -10,8 +10,10 @@ public interface PersonService {
 
     List<PersonDTO> getAll();
 
-    PersonDTO findById(Long id) throws PersonNotFoundException;
+    PersonDTO findByIdOrElseThrowPersonNotFoundException(Long id) throws PersonNotFoundException;
 
     Person save(PersonDTO personDTO);
+
+    void delete(Long id) throws PersonNotFoundException;
 
 }
