@@ -26,14 +26,20 @@ public class PersonController {
 
     @GetMapping("{id}")
     public ResponseEntity<PersonDTO> findById(@PathVariable Long id) {
-        PersonDTO personDTO = personService.findByIdOrElseThrowPersonNotFoundException(id);
+        PersonDTO personDTO = personService.findById(id);
         return ResponseEntity.ok(personDTO);
     }
 
     @PostMapping
-    public ResponseEntity<Person> save(@RequestBody @Valid PersonDTO personDTO) {
-        Person savedPerson = personService.save(personDTO);
-        return new ResponseEntity<>(savedPerson, HttpStatus.CREATED);
+    public ResponseEntity<PersonDTO> save(@RequestBody @Valid PersonDTO personDTO) {
+        PersonDTO savedPersonDTO = personService.save(personDTO);
+        return new ResponseEntity<>(savedPersonDTO, HttpStatus.CREATED);
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> replace(@RequestBody @Valid PersonDTO personDTO) {
+        personService.replace(personDTO);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("{id}")

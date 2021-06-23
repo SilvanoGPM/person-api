@@ -30,24 +30,33 @@ public class PersonServiceImpl implements PersonService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public PersonDTO findByIdOrElseThrowPersonNotFoundException(Long id) throws PersonNotFoundException {
-        Person person = personRepository
-                .findById(id)
-                .orElseThrow(() -> new PersonNotFoundException(id));
-
-        return personMapper.toDTO(person);
+    public PersonDTO findById(Long id) throws PersonNotFoundException {
+        return personMapper.toDTO(findByIdOrElseThrowPersonNotFoundException(id));
     }
 
     @Override
-    public Person save(PersonDTO personDTO) {
+    public PersonDTO save(PersonDTO personDTO) {
         Person person = personMapper.toPerson(personDTO);
-        return personRepository.save(person);
+        return personMapper.toDTO(personRepository.save(person));
+    }
+
+    @Override
+    public void replace(PersonDTO personDTO) {
+        Person person = findByIdOrElseThrowPersonNotFoundException(personDTO.getId());
+        Person savedPerson = personRepository.save(personMapper.toPerson(personDTO));
+        savedPerson.setId(person.getId());
+        personRepository.save(savedPerson);
     }
 
     @Override
     public void delete(Long id) throws PersonNotFoundException {
         personRepository.deleteById(findByIdOrElseThrowPersonNotFoundException(id).getId());
+    }
+
+    private Person findByIdOrElseThrowPersonNotFoundException(Long id) throws PersonNotFoundException {
+        return personRepository
+                .findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id));
     }
 
 }
