@@ -19,21 +19,21 @@ public class PersonController {
     private final PersonService personService;
 
     @GetMapping
-    public ResponseEntity<List<PersonDTO>> getAll() {
-        List<PersonDTO> allPeople = personService.getAll();
+    public ResponseEntity<List<Person>> getAll() {
+        List<Person> allPeople = personService.getAll();
         return ResponseEntity.ok(allPeople);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<PersonDTO> findById(@PathVariable Long id) {
-        PersonDTO personDTO = personService.findById(id);
+    public ResponseEntity<Person> findById(@PathVariable Long id) {
+        Person personDTO = personService.findByIdOrElseThrowPersonNotFoundException(id);
         return ResponseEntity.ok(personDTO);
     }
 
     @PostMapping
-    public ResponseEntity<PersonDTO> save(@RequestBody @Valid PersonDTO personDTO) {
-        PersonDTO savedPersonDTO = personService.save(personDTO);
-        return new ResponseEntity<>(savedPersonDTO, HttpStatus.CREATED);
+    public ResponseEntity<Person> save(@RequestBody @Valid PersonDTO personDTO) {
+        Person savedPerson = personService.save(personDTO);
+        return new ResponseEntity<>(savedPerson, HttpStatus.CREATED);
     }
 
     @PutMapping
