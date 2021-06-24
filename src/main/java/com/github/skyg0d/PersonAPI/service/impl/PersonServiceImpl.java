@@ -9,10 +9,7 @@ import com.github.skyg0d.PersonAPI.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,22 +19,20 @@ public class PersonServiceImpl implements PersonService {
     private final PersonMapper personMapper = PersonMapper.INSTANCE;
 
     @Override
-    public List<PersonDTO> getAll() {
-        return personRepository
-                .findAll()
-                .stream()
-                .map(personMapper::toDTO)
-                .collect(Collectors.toList());
+    public List<Person> getAll() {
+        return personRepository.findAll();
     }
 
-    public PersonDTO findById(Long id) throws PersonNotFoundException {
-        return personMapper.toDTO(findByIdOrElseThrowPersonNotFoundException(id));
+    public Person findByIdOrElseThrowPersonNotFoundException(Long id) throws PersonNotFoundException {
+        return personRepository
+                .findById(id)
+                .orElseThrow(() -> new PersonNotFoundException(id));
     }
 
     @Override
-    public PersonDTO save(PersonDTO personDTO) {
+    public Person save(PersonDTO personDTO) {
         Person person = personMapper.toPerson(personDTO);
-        return personMapper.toDTO(personRepository.save(person));
+        return personRepository.save(person);
     }
 
     @Override
@@ -50,13 +45,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public void delete(Long id) throws PersonNotFoundException {
-        personRepository.deleteById(findByIdOrElseThrowPersonNotFoundException(id).getId());
-    }
-
-    private Person findByIdOrElseThrowPersonNotFoundException(Long id) throws PersonNotFoundException {
-        return personRepository
-                .findById(id)
-                .orElseThrow(() -> new PersonNotFoundException(id));
+        personRepository.delete(findByIdOrElseThrowPersonNotFoundException(id));
     }
 
 }

@@ -1,12 +1,9 @@
 package com.github.skyg0d.PersonAPI;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
+//@SpringBootTest
 class PersonApiApplicationTests {
 
-	@Test
+//	@Test
 	void contextLoads() {
 	}
 
