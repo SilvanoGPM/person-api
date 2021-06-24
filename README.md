@@ -16,8 +16,6 @@ Person API é uma Rest API criada com Spring Boot, desenvolvida durante o Boot C
 2. Abra o seu terminal e navegue até o diretório onde o repositório se encontra
 3. Execute o comando `mvn spring-boot:run`
 
-## :heart: Contribuições
-
 ## :memo: Endpoints
 
 | Endpoint                                 | Method | Path Variable | Request Body |
@@ -27,5 +25,7 @@ Person API é uma Rest API criada com Spring Boot, desenvolvida durante o Boot C
 | http://localhost:8080/api/v1/people      | POST   | No            | Yes          |
 | http://localhost:8080/api/v1/people/{id} | DELETE | Yes           | No           |
 | http://localhost:8080/api/v1/people      | PUT    | No            | Yes          |
+
+## :heart: Contribuições
 
 Caso queria contribuir com o projeto, por favor, abra um pull request.
